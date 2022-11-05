@@ -1,46 +1,41 @@
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
-import FlatListBasics from './screens/FlatListBasic';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
-export default function App() {
+const App = () => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const getMovies = async () => {
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+
   return (
-    <View style={styles.container}>
-     <FlatListBasics></FlatListBasics>
+    <View style={{ flex: 1, padding: 24 }}>
+      <view>{data.title}</view>
+      <view>{data.description}</view>
+      {isLoading ? <ActivityIndicator /> : (
+        <FlatList
+          data={data.movies}
+          keyExtractor={({ id }, index) => id}
+          renderItem={({ item }) => (
+            <Text>{item.title}, {item.releaseYear}</Text>
+          )}
+        />
+      )}
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bigBlue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  red: {
-    color: 'red',
-  },
-  flex1: {
-    flex: 1,
-  },
-  flex2: {
-    flex: 2,
-  },
-  flex3: {
-    flex: 3,
-  },
-  dummyText: {
-    margin: 16,
-    padding: 16,
-    borderWidth: 2,
-    borderColor: "#ff00ff",
-  },
-  input: {
-    height: 40,
-    borderBottomWidth: 1.0
-  },
-});
+export default App;
