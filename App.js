@@ -7,8 +7,10 @@ const App = () => {
 
   const getMovies = async () => {
     try {
-      const response = await fetch('https://reactnative.dev/movies.json');
+      const response = await fetch('https://reqres.in/api/users?page=2');
       const json = await response.json();
+      console.log(json.data);
+
       setData(json);
     } catch (error) {
       console.error(error);
@@ -23,19 +25,29 @@ const App = () => {
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      <view>{data.title}</view>
-      <view>{data.description}</view>
+      <view>Page: {data.page}</view>
+
       {isLoading ? <ActivityIndicator /> : (
         <FlatList
-          data={data.movies}
+          data={data.data}
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => (
-            <Text>{item.title}, {item.releaseYear}</Text>
+            <ItemViwer prop={item}></ItemViwer>
           )}
         />
       )}
     </View>
   );
 };
+
+const ItemViwer = (property) => {
+  console.log(property)
+  return (
+    <view>
+      <View>Id: {property.prop.id}</View>
+      <View>Email:{property.prop.email}</View>
+    </view>
+  );
+}
 
 export default App;
