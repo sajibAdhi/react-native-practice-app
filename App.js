@@ -1,18 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import FlatListBasics from './screens/FlatListBasic';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.dummyText}>Another Piece of text!</Text>
-      </View>
-      <Text style={styles.dummyText}>Hello World!</Text>
-      <Text style={styles.red}>just red</Text>
-      <Text style={[styles.bigBlue, styles.flex1]}>just bigBlue</Text>
-      <Text style={[styles.bigBlue, styles.red]}>bigBlue, then red</Text>
-      <Text style={[styles.red, styles.bigBlue]}>red, then bigBlue</Text>
-      <Button title='Tap Me' />
+     <FlatListBasics></FlatListBasics>
     </View>
   );
 }
@@ -46,5 +38,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 2,
     borderColor: "#ff00ff",
-  }
+  },
+  input: {
+    height: 40,
+    borderBottomWidth: 1.0
+  },
 });
